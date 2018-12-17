@@ -1,4 +1,4 @@
-package quickstart;
+package tutorial;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
