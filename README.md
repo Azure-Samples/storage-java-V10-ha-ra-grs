@@ -17,14 +17,7 @@ In the case included here, the thresholds are arbitrary numbers for the count of
 
 ## How to run the sample
 
-1.  If you don't already have it installed, download and install Fiddler on your [Windows](https://www.telerik.com/download/fiddler) or [Linux](http://telerik-fiddler.s3.amazonaws.com/fiddler/fiddler-linux.zip) machine. [More information](https://www.telerik.com/blogs/fiddler-for-linux-beta-is-here) on how to install Fiddler on Linux.
-
-Fiddler will be used to modify the response from the service to indicate a failure, so it triggers the failover to secondary.
-
->NOTE
->Invalid static route can also be used to simulate failure.
-
-2. This sample requires that you securely store the name and key of your storage account. Store them in environment variables local to the machine that runs the sample. Follow either the Linux or the Windows example, depending on your operating system, to create the environment variables. In Windows, the environment variable is not available until you reload the **Command Prompt** or shell you are using.
+This sample requires that you securely store the name and key of your storage account. Store them in environment variables local to the machine that runs the sample. Follow either the Linux or the Windows example, depending on your operating system, to create the environment variables. In Windows, the environment variable is not available until you reload the **Command Prompt** or shell you are using.
 
 ### Linux example
 
@@ -40,28 +33,55 @@ setx AZURE_STORAGE_ACCOUNT "<youraccountname>"
 setx AZURE_STORAGE_ACCESS_KEY "<youraccountkey>"
 ```
 
+1.  To run the sample, use Maven at the command line.
 
-3. Run Fiddler or create an invalid static route.
+2. open a shell and browse to **storage-blobs-java-v10-quickstart** inside your cloned directory.
+3. Enter `mvn compile exec:java`.
 
-4. Run the java application. It displays information on your console window showing the count of requests made against the storage service to download the file, and tells whether you are accessing the primary or secondary endpoint. You can also see the information in the Fiddler trace.
+This sample creates a test file in your default directory, **AppData\Local\Temp**, for Windows users. Then it prompts you to take the following steps:
 
-5. The application pauses after each command.
+1. Enter commands to upload the test file to Azure Blob storage.
+2. List the blobs in the container.
+3. Download the uploaded file with a new name so you can compare the old and new files.
+4. Close the sample, which will also clean up any resources the sample created.
 
-6. Go to Fiddler and select Rules > Customize Rules. Look for the OnBeforeResponse function and insert this code. (An example of the OnBeforeResponse method is included in the project in the Fiddler_script.txt file.)
+You can create an invalid static route for all requests to the primary endpoint of your read-access geo-redundant (RA-GRS) storage account. In this sample, the local host is used as the gateway for routing requests to the storage account. Using the local host as the gateway causes all requests to your storage account primary endpoint to loop back inside the host, which subsequently leads to failure.
+
+5. Run the java application and enter **P**, the application will upload a file and then pause for your next command.
+
+With the application paused, start command prompt on Windows as an administrator or run terminal as root on Linux.
+
+6. Get information about the storage account primary endpoint domain by entering the following command on a command prompt or terminal.
+
+ Replace `STORAGEACCOUNTNAME` with the name of your storage account. Copy to the IP address of your storage account to a text editor for later use.
+
 ```
-	if ((oSession.hostname == "YOURSTORAGEACCOUNTNAME.blob.core.windows.net") 
-	&& (oSession.PathAndQuery.Contains("HelloWorld"))) {
-	   oSession.responseCode = 503;  
-        }
+nslookup STORAGEACCOUNTNAME.blob.core.windows.net
 ```
-	Change YOURSTORAGEACCOUNTNAME to your storage account name, and uncomment out this code. Save your changes to the script. 
 
-7. Return to your application and press **G** to initiate another download. In the output, you will see the errors against primary that come from the intercept in Fiddler, and the switch to secondary storage. After the number of reads exceeds the threshold, you will see it switch back to primary. It does this repeatedly.
+7. Get the IP address of your local host, enter `ipconfig` on the Windows command prompt, or `ifconfig` on the Linux terminal.
 
-8. Go back into Fiddler and comment out the code and save the script. Continue running the application. You will see it switch back to primary and run successfully against primary again.
+8. Add a static route for a destination host, enter the following command on a Windows command prompt or Linux terminal.
+
+ Replace  `<destination_ip>` with your storage account IP address, and `<gateway_ip>` with your local host IP address.
+
+# [Linux](#tab/linux)
+
+  route add <destination_ip> gw <gateway_ip>
+
+# [Windows](#tab/windows)
+
+  route add <destination_ip> <gateway_ip>
+
+---
+
+9. Return to your application and press **G** to initiate another download. In the output, you will see that the application has switched to the secondary pipeline.
+
+10. Go back into your shell and enter `route delete <destination_IP>`.
+
+11. Back in the application, enter **G** again. You will see it switch back to primary and run successfully against primary again.
 
 If you run the application repeatedly, be sure the script change is commented out before you start the application.
-
 
 ## More information
 - [About Azure storage accounts](https://docs.microsoft.com/azure/storage/storage-create-storage-account)

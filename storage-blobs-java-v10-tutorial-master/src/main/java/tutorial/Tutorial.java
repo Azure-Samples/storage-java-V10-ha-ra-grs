@@ -1,4 +1,4 @@
-package tutorial;
+package quickstart;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -174,7 +174,7 @@ public class Tutorial {
 
             // Let's create a container using a blocking call to Azure Storage
             // If container exists, we'll catch and continue
-            containerURL = serviceURL.createContainerURL("quickstart");
+            containerURL = serviceURL.createContainerURL("tutorial");
 
             try {
                 ContainerCreateResponse response = containerURL.create(null, null, null).blockingGet();
@@ -183,7 +183,7 @@ public class Tutorial {
                 if (e instanceof RestException && ((RestException)e).response().statusCode() != 409) {
                     throw e;
                 } else {
-                    System.out.println("quickstart container already exists, resuming...");
+                    System.out.println("tutorial container already exists, resuming...");
                 }
             }
 

@@ -26,7 +26,7 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.4.0</version>
         <configuration>
-          <mainClass>quickstart.Quickstart</mainClass>
+          <mainClass>quickstart.Tutorial</mainClass>
         </configuration>
       </plugin>
       
