@@ -35,7 +35,7 @@ import com.microsoft.rest.v2.util.FlowableUtil;
 import io.reactivex.*;
 import io.reactivex.Flowable;
 
-public class Quickstart {
+public class Tutorial {
     static File createTempFile() throws IOException {
 
         // Here we are creating a temporary file to use for download and upload to Blob storage
