@@ -25,7 +25,7 @@ First, create a new general-purpose storage account to use for this tutorial.
 
 After your storage account is created, it is pinned to the dashboard. Click on it to open it. Under SETTINGS, click **Access keys**. Select a key and copy the **key1** to the clipboard, then paste it into Notepad for later use.
 
-### Set credentials in environment variables 
+### Set credentials in environment variables
 
 Linux
 ```
