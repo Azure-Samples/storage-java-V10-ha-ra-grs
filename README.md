@@ -81,7 +81,7 @@ nslookup STORAGEACCOUNTNAME.blob.core.windows.net
 
 11. Back in the application, enter **G** again. You will see it switch back to primary and run successfully against primary again.
 
-If you run the application repeatedly, be sure the script change is commented out before you start the application.
+If you run the application repeatedly, be sure that the static route is not blocking, in order to ensure that the application will work.
 
 ## More information
 - [About Azure storage accounts](https://docs.microsoft.com/azure/storage/storage-create-storage-account)
