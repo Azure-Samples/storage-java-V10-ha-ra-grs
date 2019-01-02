@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="300b35d9-af09-4683-8070-18e409f70536" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/src/main/java/tutorial/Tutorial.java" beforeDir="false" afterPath="$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/src/main/java/tutorial/Tutorial.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,7 +14,7 @@
     <session id="1510224628">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.opened" value="2" />
         </counts>
@@ -35,13 +33,13 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="73" />
+          <entry key="java" value="93" />
           <entry key="xml" value="32" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="73" />
+          <entry key="JAVA" value="93" />
           <entry key="XML" value="32" />
         </counts>
       </usages-collector>
@@ -49,16 +47,16 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/src/main/java/tutorial/Tutorial.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="67" column="80" lean-forward="true" selection-start-line="67" selection-start-column="80" selection-end-line="67" selection-end-column="80" />
+            <state relative-caret-position="741">
+              <caret line="180" column="58" lean-forward="true" selection-start-line="180" selection-start-column="58" selection-end-line="180" selection-end-column="58" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
@@ -76,8 +74,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/src/main/java/tutorial/Quickstart.java" />
-        <option value="$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/src/main/java/tutorial/Tutorial.java" />
         <option value="$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/pom.xml" />
+        <option value="$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/src/main/java/tutorial/Tutorial.java" />
       </list>
     </option>
   </component>
@@ -142,7 +140,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545087316946" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545088663241" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
@@ -208,17 +206,17 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/src/main/java/tutorial/Tutorial.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="67" column="80" lean-forward="true" selection-start-line="67" selection-start-column="80" selection-end-line="67" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="24" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage-blobs-java-v10-tutorial-master/src/main/java/tutorial/Tutorial.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="741">
+          <caret line="180" column="58" lean-forward="true" selection-start-line="180" selection-start-column="58" selection-end-line="180" selection-end-column="58" />
         </state>
       </provider>
     </entry>

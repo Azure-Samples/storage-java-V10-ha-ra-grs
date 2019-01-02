@@ -40,7 +40,7 @@ public class Tutorial {
 
         // Here we are creating a temporary file to use for download and upload to Blob storage
         File sampleFile = null;
-        sampleFile = File.createTempFile("sampleFile", ".txt");
+        sampleFile = File.createTempFile("HelloWorld", ".txt");
         System.out.println(">> Creating a sample file at: " + sampleFile.toString());
         Writer output = new BufferedWriter(new FileWriter(sampleFile));
         output.write("Hello Azure!");
@@ -188,7 +188,7 @@ public class Tutorial {
             }
 
             // Create a BlockBlobURL to run operations on Blobs
-            final BlockBlobURL blobURL = containerURL.createBlockBlobURL("SampleBlob.txt");
+            final BlockBlobURL blobURL = containerURL.createBlockBlobURL("HelloWorld.txt");
 
             //blobURL.createPipeline(creds, myOptions);
             //blobURL.createPipeline(creds, servic;
