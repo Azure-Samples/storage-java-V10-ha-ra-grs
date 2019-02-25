@@ -5,7 +5,7 @@ author: roygara
 ---
 
 # Using the Circuit Breaker pattern in your HA apps with RA-GRS Storage
-This sample shows how to use the Circuit Breaker pattern with an RA-GRS storage account to switch your high-availability application to secondary storage when there is a problem with primary storage, and then switch back when primary storage becomes available again. For more information, please see [Designing HA Apps with RA-GRS storage](https://azure.microsoft.com/documentation/articles/storage-designing-ha-apps-with-ra-grs).
+This sample shows how to use the Circuit Breaker pattern with an RA-GRS storage account to switch your high-availability application to secondary storage when there is a problem with primary storage, and then switch back when primary storage becomes available again. For more information, please see [Designing HA Apps with RA-GRS storage](https://docs.microsoft.com/azure/storage/common/storage-designing-ha-apps-with-ragrs).
 
 If you don't have a Microsoft Azure subscription, you can get a FREE trial account <a href="http://go.microsoft.com/fwlink/?LinkId=330212">here</a>.
 
@@ -53,27 +53,29 @@ With the application paused, start command prompt on Windows as an administrator
 
 6. Get information about the storage account primary endpoint domain by entering the following command on a command prompt or terminal.
 
- Replace `STORAGEACCOUNTNAME` with the name of your storage account. Copy to the IP address of your storage account to a text editor for later use.
+    Replace `STORAGEACCOUNTNAME` with the name of your storage account. Copy to the IP address of your storage account to a text editor for later use.
 
-```
-nslookup STORAGEACCOUNTNAME.blob.core.windows.net
-```
+    ```
+    nslookup STORAGEACCOUNTNAME.blob.core.windows.net
+    ```
 
 7. Get the IP address of your local host, enter `ipconfig` on the Windows command prompt, or `ifconfig` on the Linux terminal.
 
 8. Add a static route for a destination host, enter the following command on a Windows command prompt or Linux terminal.
 
- Replace  `<destination_ip>` with your storage account IP address, and `<gateway_ip>` with your local host IP address.
+    Replace `<destination_ip>` with your storage account IP address, and `<gateway_ip>` with your local host IP address.
 
-# [Linux](#tab/linux)
+    **Linux**
 
-  route add <destination_ip> gw <gateway_ip>
+    ```bash
+    route add <destination_ip> gw <gateway_ip>
+    ```
 
-# [Windows](#tab/windows)
+    **Windows**
 
-  route add <destination_ip> <gateway_ip>
-
----
+    ```cmd
+    route add <destination_ip> <gateway_ip>
+    ```
 
 9. Return to your application and press **G** to initiate another download. In the output, you will see that the application has switched to the secondary pipeline.
 
@@ -84,6 +86,7 @@ nslookup STORAGEACCOUNTNAME.blob.core.windows.net
 If you run the application repeatedly, be sure that the static route is not blocking, in order to ensure that the application will work.
 
 ## More information
+
 - [About Azure storage accounts](https://docs.microsoft.com/azure/storage/storage-create-storage-account)
-- [Designing HA Apps with RA-GRS storage](https://docs.microsoft.com/azure/storage/storage-designing-ha-apps-with-ra-grs/)
+- [Designing HA Apps with RA-GRS storage](https://docs.microsoft.com/azure/storage/common/storage-designing-ha-apps-with-ragrs)
 - [Azure Storage Replication](https://docs.microsoft.com/azure/storage/storage-redundancy)
