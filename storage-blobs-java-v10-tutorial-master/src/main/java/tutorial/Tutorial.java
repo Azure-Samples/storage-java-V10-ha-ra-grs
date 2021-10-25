@@ -1,14 +1,14 @@
 package tutorial;
 
+import com.azure.storage.blob.BlobAsyncClient;
 import com.azure.storage.blob.BlobContainerAsyncClient;
 import com.azure.storage.blob.BlobServiceAsyncClient;
 import com.azure.storage.blob.BlobServiceClientBuilder;
-import com.azure.storage.blob.models.BlobRange;
 import com.azure.storage.blob.models.ListBlobsOptions;
-import com.azure.storage.blob.options.BlockBlobSimpleUploadOptions;
-import com.azure.storage.blob.specialized.BlockBlobAsyncClient;
+import com.azure.storage.blob.options.BlobDownloadToFileOptions;
+import com.azure.storage.blob.options.BlobUploadFromFileOptions;
+import com.azure.storage.blob.specialized.BlobAsyncClientBase;
 import com.azure.storage.common.StorageSharedKeyCredential;
-import reactor.core.publisher.Flux;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -18,10 +18,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
 import java.net.MalformedURLException;
-import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousFileChannel;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 
 public class Tutorial {
 
@@ -38,39 +34,22 @@ public class Tutorial {
         return sampleFile;
     }
 
-    static void uploadFile(BlockBlobAsyncClient blob, File sourceFile) throws IOException {
-        ByteBuffer buffer = ByteBuffer.allocate(8 * 1024 * 1024);
-        AsynchronousFileChannel fileChannel = AsynchronousFileChannel.open(sourceFile.toPath());
-        fileChannel.read(buffer, 0);
-        blob.uploadWithResponse(new BlockBlobSimpleUploadOptions(
-                Flux.just(buffer), buffer.array().length
-        )).subscribe(response -> {
+    static void uploadFile(BlobAsyncClient blob, File sourceFile) throws IOException {
+        blob.uploadFromFileWithResponse(new BlobUploadFromFileOptions(sourceFile.getPath())).subscribe(response -> {
             System.out.println("Completed upload request.");
             System.out.println(response.getStatusCode());
         });
     }
 
-    static void getBlob(BlockBlobAsyncClient blockBlobAsyncClient, File sourceFile) {
-        blockBlobAsyncClient.downloadStreamWithResponse(
-                new BlobRange(0, 4 * 1024 * 1024L),
-                null, null, false)
-                .doOnSubscribe(onSubscribe -> System.out.println("The blob was downloaded to " + sourceFile.getAbsolutePath()))
+    static void getBlob(BlobAsyncClientBase blobAsyncClientBase, File sourceFile) {
+        blobAsyncClientBase.downloadToFileWithResponse(new BlobDownloadToFileOptions(sourceFile.getPath()))
+                .doOnSuccess(onSubscribe -> System.out.println("The blob is being downloaded to " + sourceFile.getAbsolutePath()))
                 .subscribe(transformer -> {
                     if (transformer.getRequest().getUrl().getHost().contains("-secondary")) {
                         System.out.println("Successfully used secondary pipeline.");
                     } else {
                         System.out.println("Successfully used primary pipeline.");
                     }
-                    try {
-                        AsynchronousFileChannel channel = AsynchronousFileChannel.open(Paths.get(sourceFile.getPath()), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
-                        transformer.getValue().subscribe(bufferValue -> {
-                            channel.write(bufferValue, 0);
-                            System.out.println("The blob was downloaded to " + sourceFile.getAbsolutePath());
-                        });
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    transformer.getValue().subscribe();
                 });
     }
 
@@ -78,27 +57,25 @@ public class Tutorial {
         // Each BlobContainerAsyncClient.listBlobs call return up to maxResultsPerPage (maxResults=10 passed into ListBlobOptions below).
         ListBlobsOptions options = new ListBlobsOptions();
         options.setMaxResultsPerPage(10);
-        blobContainerAsyncClient.listBlobs(options).count().subscribe(count -> {
-            if (count > 0) {
-                blobContainerAsyncClient.listBlobs(options).subscribe(response -> {
+        blobContainerAsyncClient.listBlobs(options).subscribe(response -> {
                     String output = "Blob name: " + response.getName();
                     if (response.getSnapshot() != null) {
                         output += ", Snapshot: " + response.getSnapshot();
                     }
                     System.out.println(output);
-                });
-            } else {
-                System.out.println("There are no more blobs to list off.");
-            }
-        });
+                },
+                // Error consumer for if there is an error during blob listing, null is a no-op.
+                null,
+                // Completion Runnable for when listing completes
+                () -> System.out.println("There are no more blobs to list."));
     }
 
-    static void deleteBlob(BlockBlobAsyncClient blockBlobAsyncClient) {
+    static void deleteBlob(BlobAsyncClientBase blobAsyncClientBase) {
         // Delete the blob
-        blockBlobAsyncClient.delete().doOnError(onError ->
+        blobAsyncClientBase.delete().doOnError(onError ->
                 System.out.println(">> An error encountered during deleteBlob: " + onError.getMessage())
         ).subscribe(subscriber ->
-                System.out.println(">> Blob deleted: " + blockBlobAsyncClient.getBlobUrl())
+                System.out.println(">> Blob deleted: " + blobAsyncClientBase.getBlobUrl())
         );
     }
 
@@ -133,8 +110,8 @@ public class Tutorial {
                             : blobServiceAsyncClient.createBlobContainer("tutorial").block();
 
             // Create a BlockBlobAsyncClient to run operations on Blobs
-            BlockBlobAsyncClient blockBlobAsyncClient = blobContainerAsyncClient
-                    .getBlobAsyncClient("HelloWorld.txt").getBlockBlobAsyncClient();
+            BlobAsyncClient blockBlobAsyncClient = blobContainerAsyncClient
+                    .getBlobAsyncClient("HelloWorld.txt");
 
             // Listening for commands from the console
             System.out.println("Enter a command");
